@@ -22,3 +22,13 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+# Environment files (passwords etc!)
+.env
+.env.local
+
+# Yarn PnP
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.pnp.cjs
+.pnp.loader.mjs
