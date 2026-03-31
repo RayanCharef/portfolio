@@ -1,2 +1,13 @@
 @import "tailwindcss";
 @import "@fortawesome/fontawesome-free/css/all.min.css";
+
+@theme {
+  --color-primary: #0a0a0a;
+  --color-accent: #06b6d4;
+  --color-border: #1a1a1a;
+}
+
+body {
+  background-color: #0a0a0a;
+  color: #e5e5e5;
+}
