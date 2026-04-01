@@ -57,9 +57,11 @@ export class Navbar {
                 cursor-not-allowed opacity-50"></i>
       <i class="fa-brands fa-github text-gray-600 text-lg 
                 cursor-not-allowed opacity-50"></i>
-      <i class="fa-solid fa-right-to-bracket text-gray-400 text-lg 
-                cursor-pointer hover:text-white
-                transition-colors duration-200"></i>
+        <a href="https://mbo-portal.nl/student/2025-2026/S349635/admin/" target="_blank">
+        <i class="fa-solid fa-right-to-bracket text-gray-400 text-lg 
+                    cursor-pointer hover:text-white
+                    transition-colors duration-200"></i>
+        </a>
     `
 
     nav.appendChild(left)

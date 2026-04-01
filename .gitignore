@@ -32,3 +32,7 @@ dist-ssr
 .yarn/build-state.yml
 .pnp.cjs
 .pnp.loader.mjs
+
+# PHP environment/config files with passwords
+public/backend/api/db.php
+public/backend/admin/hash.php
