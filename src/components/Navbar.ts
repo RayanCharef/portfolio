@@ -19,6 +19,7 @@ export class Navbar {
     
     this.links = [
       { label: 'About me', href: '#about' },
+      { label: 'Journey', href: '#journey' },
       { label: 'Projects', href: '#projects' },
       { label: 'Contact', href: '#contact' }
     ]

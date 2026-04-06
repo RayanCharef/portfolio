@@ -14,10 +14,21 @@ interface Skill {
   color: string
 }
 
+interface JourneyEntry {
+  period: string
+  title: string
+  company: string
+  type: 'education' | 'internship'
+  description: string
+  tags?: string[]
+  status?: string
+}
+
 export class Home {
   private currentlyItems: InfoItem[]
   private interestItems: InfoItem[]
   private skills: Skill[]
+  private journeyEntries: JourneyEntry[]
 
   constructor() {
     this.currentlyItems = [
@@ -36,11 +47,39 @@ export class Home {
       { name: 'HTML & CSS',  level: 90, color: '#e34c26' },
       { name: 'JavaScript',  level: 80, color: '#f7df1e' },
       { name: 'TypeScript',  level: 90, color: '#3178c6' },
-      { name: 'PHP',         level: 60, color: '#777bb4' },
-      { name: 'SQL',       level: 80, color: '#00758f' },
-      { name: 'Python',      level: 60, color: '#3572A5' },
+      { name: 'PHP',         level: 55, color: '#777bb4' },
+      { name: 'SQL',         level: 80, color: '#00758f' },
+      { name: 'Python',      level: 55, color: '#3572A5' },
       { name: 'Java',        level: 50, color: '#b07219' },
       { name: 'C#',          level: 45, color: '#178600' },
+    ]
+
+    this.journeyEntries = [
+      {
+        period: '2022 — June 2026',
+        title: 'MBO 4 Software Development',
+        company: 'Firda',
+        type: 'education',
+        description: 'Studying software development with a focus on full-stack web development. Building real projects using TypeScript, PHP, MySQL and more.',
+        tags: ['JavaScript', 'Java', 'MySQL', 'HTML', 'CSS', 'Documentation'],
+        status: 'Expected graduation June 2026'
+      },
+      {
+        period: '2024 / 2025',
+        title: 'Junior Developer Intern',
+        company: 'Leerbedrijf Bronnen',
+        type: 'internship',
+        description: 'Built web based applications using TypeScript. Worked in a professional development environment and learned how to think and work like a real developer.',
+        tags: ['TypeScript', 'Web Development']
+      },
+      {
+        period: '2025 / 2026',
+        title: 'Exam Internship — Junior Developer',
+        company: 'Leerbedrijf Bronnen',
+        type: 'internship',
+        description: 'Exam internship where I wrote full technical documentation for an application, built it according to the documentation, verified it worked as specified and presented the entire project. This internship marked the moment I became a developer.',
+        tags: ['TypeScript', 'Documentation', 'Web Development']
+      }
     ]
   }
 
@@ -151,7 +190,6 @@ export class Home {
 
     const underline = document.createElement('span')
     underline.className = 'absolute -bottom-3 left-0 w-full h-[2px] bg-white opacity-10'
-
     h2.appendChild(underline)
     return h2
   }
@@ -185,29 +223,22 @@ export class Home {
     return wrapper
   }
 
-    private createBio(): HTMLElement {
+  private createBio(): HTMLElement {
     const div = document.createElement('div')
     div.className = 'text-center max-w-2xl'
 
     const primary = document.createElement('p')
     primary.className = 'text-gray-300 text-lg leading-relaxed mb-6'
-    primary.textContent = `I'm a developer who loves solving problems. 
-        Not just the obvious ones  the small annoyances that most people just accept. 
-        I've been coding for 4 years, mostly through school but just as much in my free time, 
-        because for me it never really feels like work.`
+    primary.textContent = `I'm a developer who loves solving problems. Not just the obvious ones — the small annoyances that most people just accept. I've been coding for 4 years, mostly through school but just as much in my free time, because for me it never really feels like work.`
 
     const secondary = document.createElement('p')
     secondary.className = 'text-gray-500 text-base leading-relaxed'
-    secondary.textContent = `What drives me is the bugs. Most developers dread them 
-        I actually enjoy them. If something works perfectly on the first try it almost feels 
-        less satisfying. I'm currently finishing my MBO 4 in Software Development and planning 
-        to continue into HBO, because I'm not done learning  not even close.`
+    secondary.textContent = `What drives me is the bugs. Most developers dread them — I actually enjoy them. If something works perfectly on the first try it almost feels less satisfying. I'm currently finishing my MBO 4 in Software Development and planning to continue into HBO, because I'm not done learning — not even close.`
 
     div.appendChild(primary)
     div.appendChild(secondary)
     return div
-    }
-
+  }
 
   private createInfoItem(item: InfoItem): HTMLElement {
     const li = document.createElement('li')
@@ -344,12 +375,203 @@ export class Home {
     return section
   }
 
+  // ─── JOURNEY ──────────────────────────────────────────────
+
+  private createJourneyLabel(): HTMLElement {
+    const p = document.createElement('p')
+    p.className = 'text-gray-400 text-xs tracking-[0.4em] uppercase mb-4'
+    p.textContent = 'My path'
+    return p
+  }
+
+  private createJourneyTitle(): HTMLElement {
+    const h2 = document.createElement('h2')
+    h2.className = 'text-5xl font-black text-white tracking-tight mb-16 relative'
+    h2.textContent = 'Journey'
+
+    const underline = document.createElement('span')
+    underline.className = 'absolute -bottom-3 left-0 w-full h-[2px] bg-white opacity-10'
+    h2.appendChild(underline)
+    return h2
+  }
+
+  private createJourneyEntry(entry: JourneyEntry, index: number): HTMLElement {
+    const wrapper = document.createElement('div')
+    wrapper.className = 'journey-entry relative pl-12 pb-12 opacity-0'
+    wrapper.style.transform = 'translateX(-20px)'
+    wrapper.style.transition = `opacity 0.6s ease ${index * 0.15}s, transform 0.6s ease ${index * 0.15}s`
+    wrapper.dataset.index = String(index)
+
+    // Dot on the line
+    const dot = document.createElement('div')
+    dot.className = `
+      absolute left-0 top-1 w-4 h-4 rounded-full border-2 border-white
+      ${entry.type === 'education' ? 'bg-white' : 'bg-[#0a0a0a]'}
+      z-10
+    `
+
+    // Period
+    const period = document.createElement('span')
+    period.className = 'text-xs text-gray-600 tracking-widest uppercase'
+    period.textContent = entry.period
+
+    // Title
+    const title = document.createElement('h3')
+    title.className = 'text-xl font-bold text-white mt-1 mb-1'
+    title.textContent = entry.title
+
+    // Company + type badge
+    const companyRow = document.createElement('div')
+    companyRow.className = 'flex items-center gap-3 mb-3'
+
+    const company = document.createElement('span')
+    company.className = 'text-gray-400 text-sm'
+    company.textContent = entry.company
+
+    const badge = document.createElement('span')
+    badge.className = `
+      text-xs px-2 py-0.5 rounded border
+      ${entry.type === 'education'
+        ? 'border-white/20 text-white/50'
+        : 'border-gray-700 text-gray-600'}
+    `
+    badge.textContent = entry.type === 'education' ? 'Education' : 'Internship'
+
+    companyRow.appendChild(company)
+    companyRow.appendChild(badge)
+
+    // Description
+    const desc = document.createElement('p')
+    desc.className = 'text-gray-500 text-sm leading-relaxed mb-3 max-w-lg'
+    desc.textContent = entry.description
+
+    wrapper.appendChild(dot)
+    wrapper.appendChild(period)
+    wrapper.appendChild(title)
+    wrapper.appendChild(companyRow)
+    wrapper.appendChild(desc)
+
+    // Status badge if present
+    if (entry.status) {
+      const status = document.createElement('span')
+      status.className = 'inline-block text-xs text-white/40 border border-white/10 px-2 py-0.5 rounded mb-3'
+      status.textContent = entry.status
+      wrapper.appendChild(status)
+    }
+
+    // Tags
+    if (entry.tags && entry.tags.length) {
+      const tagsRow = document.createElement('div')
+      tagsRow.className = 'flex flex-wrap gap-2'
+      entry.tags.forEach(tag => {
+        const t = document.createElement('span')
+        t.className = 'text-xs text-gray-400 border border-[#333] px-2 py-0.5 rounded'
+        t.textContent = tag
+        tagsRow.appendChild(t)
+      })
+      wrapper.appendChild(tagsRow)
+    }
+
+    return wrapper
+  }
+
+  private initJourneyAnimation(): void {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          this.animateJourney()
+          observer.disconnect()
+        }
+      })
+    }, { threshold: 0.1 })
+
+    setTimeout(() => {
+      const section = document.getElementById('journey')
+      if (section) observer.observe(section)
+    }, 100)
+  }
+
+private animateJourney(): void {
+  const line = document.getElementById('journeyLine')
+  const timeline = document.getElementById('journeyTimeline')
+  const entries = document.querySelectorAll('.journey-entry')
+
+  if (!line || !timeline) return
+
+  const totalHeight = (timeline as HTMLElement).offsetHeight
+  const duration = 1500 // 1.5 seconds total
+  let startTime: number | null = null
+
+  const animate = (timestamp: number) => {
+    if (!startTime) startTime = timestamp
+    const elapsed = timestamp - startTime
+    const progress = Math.min(elapsed / duration, 1)
+
+    // Ease in out for smooth feel
+    const eased = progress < 0.5
+      ? 2 * progress * progress
+      : 1 - Math.pow(-2 * progress + 2, 2) / 2
+
+    const currentHeight = totalHeight * eased
+    line.style.height = `${currentHeight}px`
+
+    entries.forEach((entry) => {
+      const entryTop = (entry as HTMLElement).offsetTop
+      if (currentHeight >= entryTop) {
+        ;(entry as HTMLElement).style.opacity = '1'
+        ;(entry as HTMLElement).style.transform = 'translateX(0)'
+      }
+    })
+
+    if (progress < 1) {
+      requestAnimationFrame(animate)
+    }
+  }
+
+  requestAnimationFrame(animate)
+}
+
+  private createJourneySection(): HTMLElement {
+    const section = document.createElement('section')
+    section.id = 'journey'
+    section.className = `
+      min-h-screen bg-[#0a0a0a] flex flex-col items-center
+      justify-center px-8 py-24 relative
+    `
+
+    section.appendChild(this.createJourneyLabel())
+    section.appendChild(this.createJourneyTitle())
+
+    const timeline = document.createElement('div')
+    timeline.className = 'relative max-w-2xl w-full'
+    timeline.id = 'journeyTimeline'
+
+    const line = document.createElement('div')
+    line.id = 'journeyLine'
+    line.className = 'absolute left-[7px] top-0 w-[2px] bg-white'
+    line.style.height = '0px'
+    line.style.transition = 'height 0.05s linear'
+
+    timeline.appendChild(line)
+
+    this.journeyEntries.forEach((entry, i) => {
+      timeline.appendChild(this.createJourneyEntry(entry, i))
+    })
+
+    section.appendChild(timeline)
+
+    this.initJourneyAnimation()
+
+    return section
+  }
+
   // ─── RENDER ───────────────────────────────────────────────
 
   render(): HTMLElement {
     const main = document.createElement('main')
     main.appendChild(this.createHeroSection())
     main.appendChild(this.createAboutSection())
+    main.appendChild(this.createJourneySection())
     return main
   }
 }
