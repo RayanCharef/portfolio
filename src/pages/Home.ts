@@ -229,11 +229,11 @@ export class Home {
 
     const primary = document.createElement('p')
     primary.className = 'text-gray-300 text-lg leading-relaxed mb-6'
-    primary.textContent = `I'm a developer who loves solving problems. Not just the obvious ones — the small annoyances that most people just accept. I've been coding for 4 years, mostly through school but just as much in my free time, because for me it never really feels like work.`
+    primary.textContent = `I'm a developer who loves solving problems. Not just the obvious ones  the small annoyances that most people just accept. I've been coding for 4 years, mostly through school but just as much in my free time, because for me it never really feels like work.`
 
     const secondary = document.createElement('p')
     secondary.className = 'text-gray-500 text-base leading-relaxed'
-    secondary.textContent = `What drives me is the bugs. Most developers dread them — I actually enjoy them. If something works perfectly on the first try it almost feels less satisfying. I'm currently finishing my MBO 4 in Software Development and planning to continue into HBO, because I'm not done learning — not even close.`
+    secondary.textContent = `What drives me is the bugs. Most developers dread them  I actually enjoy them. If something works perfectly on the first try it almost feels less satisfying. I'm currently finishing my MBO 4 in Software Development and planning to continue into HBO, because I'm not done learning  not even close.`
 
     div.appendChild(primary)
     div.appendChild(secondary)
@@ -550,7 +550,6 @@ private animateJourney(): void {
     line.id = 'journeyLine'
     line.className = 'absolute left-[7px] top-0 w-[2px] bg-white'
     line.style.height = '0px'
-    line.style.transition = 'height 0.05s linear'
 
     timeline.appendChild(line)
 

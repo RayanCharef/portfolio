@@ -25,8 +25,8 @@ export class Navbar {
     ]
 
     this.socialIcons = [
-      { icon: 'fa-brands fa-linkedin', disabled: true },
-      { icon: 'fa-brands fa-github', disabled: true }
+    { icon: 'fa-brands fa-linkedin', disabled: false, href: 'https://www.linkedin.com/in/rayan-ck-9b1b4a309/' },
+    { icon: 'fa-brands fa-github', disabled: false, href: 'https://github.com/RayanCharef' }
     ]
   }
 
@@ -61,14 +61,23 @@ export class Navbar {
     return a
   }
 
-  private createSocialIcon(social: SocialIcon): HTMLElement {
+    private createSocialIcon(social: SocialIcon): HTMLElement {
     const i = document.createElement('i')
     i.className = `
-      ${social.icon} text-gray-600 text-lg
-      ${social.disabled ? 'cursor-not-allowed opacity-50' : 'cursor-pointer hover:text-white transition-colors duration-200'}
+        ${social.icon} text-gray-400 text-lg
+        ${social.disabled ? 'cursor-not-allowed opacity-50' : 'cursor-pointer hover:text-white transition-colors duration-200'}
     `
+
+    if (social.href && !social.disabled) {
+        const a = document.createElement('a')
+        a.href = social.href
+        a.target = '_blank'
+        a.appendChild(i)
+        return a
+    }
+
     return i
-  }
+    }
 
   private createLoginIcon(): HTMLElement {
     const a = document.createElement('a')
