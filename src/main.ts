@@ -2,6 +2,7 @@
 import './style.css'
 import { Navbar } from './components/Navbar'
 import { Home } from './pages/Home'
+import { Projects } from './pages/Projects'
 
 interface LetterPoint {
   x: number
@@ -186,12 +187,10 @@ class PaintAnimation {
 
 class App {
   private navbar: Navbar
-  private home: Home
   private animation: PaintAnimation
 
   constructor() {
     this.navbar = new Navbar()
-    this.home = new Home()
     this.animation = new PaintAnimation()
   }
 
@@ -206,16 +205,24 @@ class App {
       .appendChild(this.navbar.render())
   }
 
-  private mountHome(): void {
-    document.querySelector<HTMLDivElement>('#app')!
-      .appendChild(this.home.render())
+  private async mountPage(): Promise<void> {
+    const app = document.querySelector<HTMLDivElement>('#app')!
+    const path = window.location.pathname
+
+    if (path === '/projects') {
+      const projects = new Projects()
+      app.appendChild(await projects.render())
+    } else {
+      const home = new Home()
+      app.appendChild(home.render())
+      this.animation.start()
+    }
   }
 
-  init(): void {
+  async init(): Promise<void> {
     this.setupScrollBehavior()
     this.mountNavbar()
-    this.mountHome()
-    this.animation.start()
+    await this.mountPage()
   }
 }
 

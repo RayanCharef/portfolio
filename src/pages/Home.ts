@@ -137,7 +137,7 @@ export class Home {
     `
     button.textContent = 'View my work'
     button.addEventListener('click', () => {
-      document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })
+    window.location.href = '/projects'
     })
     return button
   }

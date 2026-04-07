@@ -4,6 +4,7 @@ export class ApiService {
 
   // ─── PROJECTS (your PHP backend) ───────────────────────────
 
+  
   static async getProjects(): Promise<Project[]> {
     try {
       const response = await fetch(`${this.baseUrl}/projects.php`)
@@ -14,6 +15,7 @@ export class ApiService {
       return []
     }
   }
+  
 
   static async addProject(project: NewProject): Promise<boolean> {
     try {
@@ -41,6 +43,7 @@ export class ApiService {
     }
   }
 
+  
   // ─── GITHUB ────────────────────────────────────────────────
 
   static async getGithubRepos(): Promise<GithubRepo[]> {
@@ -79,6 +82,9 @@ export interface Project {
   tags: string[]
   images: string[]
   code: string
+  code_language: string
+  video_url: string | null
+  github_url: string | null
   created_at: string
 }
 
