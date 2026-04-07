@@ -61,7 +61,7 @@ export class Home {
         company: 'Firda',
         type: 'education',
         description: 'Studying software development with a focus on full-stack web development. Building real projects using TypeScript, PHP, MySQL and more.',
-        tags: ['JavaScript', 'Java', 'MySQL', 'HTML', 'CSS', 'Documentation'],
+        tags: ['JavaScript', 'Java', 'MySQL', 'HTML', 'CSS', 'Documentation,', 'C#'],
         status: 'Expected graduation June 2026'
       },
       {
@@ -277,7 +277,7 @@ export class Home {
 
   // ─── SKILLS ───────────────────────────────────────────────
 
-  private createSkillTag(skill: Skill): HTMLElement {
+    private createSkillTag(skill: Skill, index: number): HTMLElement {
     const wrapper = document.createElement('div')
     wrapper.className = 'flex flex-col gap-2'
 
@@ -300,24 +300,24 @@ export class Home {
     barBg.className = 'w-full h-[3px] bg-[#1f1f1f] rounded-full overflow-hidden'
 
     const barFill = document.createElement('div')
-    barFill.className = 'h-full rounded-full transition-all duration-1000'
+    barFill.className = 'h-full rounded-full'
     barFill.style.width = '0%'
     barFill.style.backgroundColor = skill.color
-
-    setTimeout(() => {
-      barFill.style.width = `${skill.level}%`
-    }, 300)
-
+    barFill.style.transition = `width 1.6s ease ${index * 0.1}s`
     barBg.appendChild(barFill)
     wrapper.appendChild(tag)
     wrapper.appendChild(barBg)
 
-    return wrapper
-  }
+    wrapper.dataset.level = String(skill.level)
+    wrapper.dataset.fill = 'false'
 
-  private createSkillsSection(): HTMLElement {
+    return wrapper
+    }
+
+    private createSkillsSection(): HTMLElement {
     const div = document.createElement('div')
     div.className = 'w-full'
+    div.id = 'skillsSection'
 
     const label = document.createElement('p')
     label.className = 'text-xs text-gray-600 tracking-widest uppercase mb-6'
@@ -326,12 +326,29 @@ export class Home {
     const grid = document.createElement('div')
     grid.className = 'grid grid-cols-2 gap-6'
 
-    this.skills.forEach(skill => grid.appendChild(this.createSkillTag(skill)))
+    this.skills.forEach((skill, index) => grid.appendChild(this.createSkillTag(skill, index)))
 
     div.appendChild(label)
     div.appendChild(grid)
+
+    // Trigger fill when section scrolls into view
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            div.querySelectorAll<HTMLElement>('[data-fill="false"]').forEach(wrapper => {
+            const fill = wrapper.querySelector<HTMLElement>('.h-full')
+            if (fill) fill.style.width = `${wrapper.dataset.level}%`
+            wrapper.dataset.fill = 'true'
+            })
+            observer.disconnect()
+        }
+        })
+    }, { threshold: 0.3 })
+
+    setTimeout(() => observer.observe(div), 100)
+
     return div
-  }
+    }
 
   // ─── ABOUT SECTION ────────────────────────────────────────
 
@@ -564,13 +581,109 @@ private animateJourney(): void {
     return section
   }
 
+  // ─── CONTACT ──────────────────────────────────────────────
+
+private createContactSection(): HTMLElement {
+  const section = document.createElement('section')
+  section.id = 'contact'
+  section.className = `
+    bg-[#111111] flex flex-col items-center
+    justify-center px-8 py-24 relative
+  `
+
+  const label = document.createElement('p')
+  label.className = 'text-gray-400 text-xs tracking-[0.4em] uppercase mb-4'
+  label.textContent = 'Get in touch'
+
+  const title = document.createElement('h2')
+  title.className = 'text-5xl font-black text-white tracking-tight mb-4 relative'
+  title.textContent = 'Contact'
+
+  const underline = document.createElement('span')
+  underline.className = 'absolute -bottom-3 left-0 w-full h-[2px] bg-white opacity-10'
+  title.appendChild(underline)
+
+  const subtitle = document.createElement('p')
+  subtitle.className = 'text-gray-500 text-base mb-12 mt-6'
+  subtitle.textContent = 'Want to work together or just say hi? Feel free to reach out. Rayan300505@gmail.com'
+
+
+  const links = document.createElement('div')
+  links.className = 'flex items-center gap-6'
+
+  // Email
+  const emailLink = document.createElement('a')
+  emailLink.href = 'mailto:rayan300505@gmail.com'
+  emailLink.className = `
+    flex items-center gap-3 px-6 py-3
+    border border-[#222] rounded
+    text-gray-400 text-sm tracking-wider uppercase
+    hover:border-white hover:text-white
+    transition-all duration-300
+  `
+  const emailIcon = document.createElement('i')
+  emailIcon.className = 'fa-solid fa-envelope text-base'
+  const emailText = document.createElement('span')
+  emailText.textContent = 'Email me'
+  emailLink.appendChild(emailIcon)
+  emailLink.appendChild(emailText)
+
+  // LinkedIn
+  const linkedinLink = document.createElement('a')
+  linkedinLink.href = 'https://www.linkedin.com/in/rayan-ck-9b1b4a309/'
+  linkedinLink.target = '_blank'
+  linkedinLink.className = `
+    flex items-center gap-3 px-6 py-3
+    border border-[#222] rounded
+    text-gray-400 text-sm tracking-wider uppercase
+    hover:border-white hover:text-white
+    transition-all duration-300
+  `
+  const linkedinIcon = document.createElement('i')
+  linkedinIcon.className = 'fa-brands fa-linkedin text-base'
+  const linkedinText = document.createElement('span')
+  linkedinText.textContent = 'LinkedIn'
+  linkedinLink.appendChild(linkedinIcon)
+  linkedinLink.appendChild(linkedinText)
+
+  // GitHub
+  const githubLink = document.createElement('a')
+  githubLink.href = 'https://github.com/RayanCharef'
+  githubLink.target = '_blank'
+  githubLink.className = `
+    flex items-center gap-3 px-6 py-3
+    border border-[#222] rounded
+    text-gray-400 text-sm tracking-wider uppercase
+    hover:border-white hover:text-white
+    transition-all duration-300
+  `
+  const githubIcon = document.createElement('i')
+  githubIcon.className = 'fa-brands fa-github text-base'
+  const githubText = document.createElement('span')
+  githubText.textContent = 'GitHub'
+  githubLink.appendChild(githubIcon)
+  githubLink.appendChild(githubText)
+
+  links.appendChild(emailLink)
+  links.appendChild(linkedinLink)
+  links.appendChild(githubLink)
+
+  section.appendChild(label)
+  section.appendChild(title)
+  section.appendChild(subtitle)
+  section.appendChild(links)
+
+  return section
+}
+
   // ─── RENDER ───────────────────────────────────────────────
 
-  render(): HTMLElement {
-    const main = document.createElement('main')
-    main.appendChild(this.createHeroSection())
-    main.appendChild(this.createAboutSection())
-    main.appendChild(this.createJourneySection())
-    return main
-  }
+render(): HTMLElement {
+  const main = document.createElement('main')
+  main.appendChild(this.createHeroSection())
+  main.appendChild(this.createAboutSection())
+  main.appendChild(this.createJourneySection())
+  main.appendChild(this.createContactSection())
+  return main
+}
 }
