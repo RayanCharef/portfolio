@@ -104,16 +104,17 @@ export class Projects {
     grid.className = 'grid grid-cols-3 gap-6 w-full max-w-6xl'
 
     projects.forEach((project, i) => {
-      const card = new ProjectCard(project).render()
-      card.style.transitionDelay = `${i * 0.07}s`
+    const card = new ProjectCard(project).render()
+    card.style.transitionDelay = `${i * 0.07}s`
+    grid.appendChild(card)
 
-      // Trigger fade-in after appended
-      requestAnimationFrame(() => {
+    // Trigger fade-in after appended
+    requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
         card.style.opacity = '1'
         card.style.transform = 'translateY(0)'
-      })
-
-      grid.appendChild(card)
+        })
+    })
     })
 
     section.appendChild(grid)

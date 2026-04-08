@@ -1,4 +1,5 @@
 import type { Project } from '../services/api'
+import { IMAGE_BASE } from '../services/api'
 
 export class ProjectCard {
   private project: Project
@@ -25,7 +26,6 @@ export class ProjectCard {
     `
     modal.style.transition = 'transform 0.3s ease'
 
-    // Close on overlay click
     overlay.addEventListener('click', (e) => {
       if (e.target === overlay) this.closeModal(overlay)
     })
@@ -33,7 +33,7 @@ export class ProjectCard {
     // ── Header image
     if (this.project.images.length > 0) {
       const img = document.createElement('img')
-      img.src = `/uploads/${this.project.images[0]}`
+      img.src = `${IMAGE_BASE}/${this.project.images[0]}`
       img.alt = this.project.title
       img.className = 'w-full h-64 object-cover rounded-t-lg'
       modal.appendChild(img)
@@ -69,12 +69,12 @@ export class ProjectCard {
 
     // Tags
     if (this.project.tags.length) {
-      const tagsRow = document.createElement('div')
-      tagsRow.className = 'flex flex-wrap gap-2'
-
       const tagsLabel = document.createElement('p')
       tagsLabel.className = 'text-xs text-gray-600 tracking-widest uppercase w-full mb-1'
       tagsLabel.textContent = 'Stack'
+
+      const tagsRow = document.createElement('div')
+      tagsRow.className = 'flex flex-wrap gap-2'
 
       this.project.tags.forEach(tag => {
         const t = document.createElement('span')
@@ -86,12 +86,42 @@ export class ProjectCard {
       content.appendChild(tagsLabel)
       content.appendChild(tagsRow)
     }
+    // Code snippet
+    if (this.project.code && this.project.code.trim()) {
+    const codeLabel = document.createElement('p')
+    codeLabel.className = 'text-xs text-gray-600 tracking-widest uppercase mb-1'
+    codeLabel.textContent = 'Code snippet'
+
+    const codeLanguage = document.createElement('span')
+    codeLanguage.className = 'text-xs text-gray-600 tracking-widest uppercase'
+    codeLanguage.textContent = this.project.code_language ?? 'plaintext'
+
+    const codeLabelRow = document.createElement('div')
+    codeLabelRow.className = 'flex items-center justify-between mb-2'
+    codeLabelRow.appendChild(codeLabel)
+    codeLabelRow.appendChild(codeLanguage)
+
+    const pre = document.createElement('pre')
+    pre.className = `
+        bg-[#0a0a0a] border border-[#222] rounded p-4
+        text-sm text-gray-300 overflow-x-auto
+        font-mono leading-relaxed
+    `
+
+    const code = document.createElement('code')
+    code.textContent = this.project.code
+
+    pre.appendChild(code)
+
+    const codeBlock = document.createElement('div')
+    codeBlock.appendChild(codeLabelRow)
+    codeBlock.appendChild(pre)
+
+    content.appendChild(codeBlock)
+    }
 
     // Extra images
     if (this.project.images.length > 1) {
-      const gallery = document.createElement('div')
-      gallery.className = 'flex flex-col gap-2'
-
       const galleryLabel = document.createElement('p')
       galleryLabel.className = 'text-xs text-gray-600 tracking-widest uppercase mb-1'
       galleryLabel.textContent = 'Screenshots'
@@ -101,11 +131,13 @@ export class ProjectCard {
 
       this.project.images.slice(1).forEach(imgPath => {
         const img = document.createElement('img')
-        img.src = `/uploads/${imgPath}`
+        img.src = `${IMAGE_BASE}/${imgPath}`
         img.className = 'w-full h-32 object-cover rounded border border-[#222]'
         galleryGrid.appendChild(img)
       })
 
+      const gallery = document.createElement('div')
+      gallery.className = 'flex flex-col gap-2'
       gallery.appendChild(galleryLabel)
       gallery.appendChild(galleryGrid)
       content.appendChild(gallery)
@@ -191,7 +223,6 @@ export class ProjectCard {
     card.style.transform = 'translateY(16px)'
     card.style.transition = 'opacity 0.5s ease, transform 0.5s ease, border-color 0.3s ease'
 
-    // Open modal on click
     card.addEventListener('click', () => {
       const modal = this.createModal()
       document.body.appendChild(modal)
@@ -200,7 +231,7 @@ export class ProjectCard {
     // ── Image
     if (this.project.images.length > 0) {
       const img = document.createElement('img')
-      img.src = `/uploads/${this.project.images[0]}`
+      img.src = `${IMAGE_BASE}/${this.project.images[0]}`
       img.alt = this.project.title
       img.className = 'w-full h-48 object-cover'
       card.appendChild(img)
@@ -237,7 +268,6 @@ export class ProjectCard {
       tagsRow.appendChild(t)
     })
 
-    // Footer
     const footer = document.createElement('div')
     footer.className = 'flex items-center justify-between pt-2 border-t border-[#1f1f1f] mt-auto'
 

@@ -187,11 +187,9 @@ class PaintAnimation {
 
 class App {
   private navbar: Navbar
-  private animation: PaintAnimation
 
   constructor() {
     this.navbar = new Navbar()
-    this.animation = new PaintAnimation()
   }
 
   private setupScrollBehavior(): void {
@@ -213,9 +211,10 @@ class App {
       const projects = new Projects()
       app.appendChild(await projects.render())
     } else {
+      const animation = new PaintAnimation()
       const home = new Home()
       app.appendChild(home.render())
-      this.animation.start()
+      animation.start()
     }
   }
 

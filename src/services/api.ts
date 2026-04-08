@@ -1,21 +1,31 @@
+export const IMAGE_BASE = import.meta.env.DEV
+  ? 'https://mbo-portal.nl/student/2025-2026/S349635/uploads'
+  : '/uploads'
+
 export class ApiService {
-  private static baseUrl: string = '/api'
+  private static baseUrl: string = import.meta.env.DEV 
+  ? 'https://mbo-portal.nl/student/2025-2026/S349635/api'
+  : '/api'
+
+  
   private static githubUsername: string = 'RayanCharef'
 
-  // ─── PROJECTS (your PHP backend) ───────────────────────────
+  // ─── PROJECTS  ───────────────────────────
 
   
-  static async getProjects(): Promise<Project[]> {
-    try {
-      const response = await fetch(`${this.baseUrl}/projects.php`)
-      const data = await response.json()
-      return data
-    } catch (error) {
-      console.error('Failed to fetch projects:', error)
-      return []
-    }
+static async getProjects(): Promise<Project[]> {
+  try {
+    const response = await fetch(`${this.baseUrl}/projects.php`)
+    console.log('Status:', response.status)
+    console.log('URL:', response.url)
+    const data = await response.json()
+    console.log('Data:', data)
+    return data
+  } catch (error) {
+    console.error('Failed to fetch projects:', error)
+    return []
   }
-  
+}
 
   static async addProject(project: NewProject): Promise<boolean> {
     try {
