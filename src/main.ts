@@ -70,7 +70,6 @@ class PaintAnimation {
   private cy: number
   private allDrops: PaintDrop[]
   private currentLetter: number
-  private animationDone: boolean
   private letters: string[]
   private letterWidth: number
   private startOffset: number
@@ -80,7 +79,6 @@ class PaintAnimation {
     this.letterWidth = 110
     this.allDrops = []
     this.currentLetter = 0
-    this.animationDone = false
 
     const totalWidth = this.letters.length * this.letterWidth
     this.startOffset = -totalWidth / 2 + this.letterWidth / 2
@@ -145,7 +143,6 @@ class PaintAnimation {
         this.overlay.style.opacity = '0'
         setTimeout(() => this.overlay.remove(), 1000)
       }, 2500)
-      this.animationDone = true
       return
     }
 
