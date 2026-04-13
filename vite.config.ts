@@ -5,5 +5,6 @@ export default defineConfig({
   plugins: [
     tailwindcss(),
   ],
-  appType: 'spa'
+  appType: 'spa',
+  base: '/student/2025-2026/S349635/'
 })
