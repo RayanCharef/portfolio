@@ -25,8 +25,8 @@ export class Navbar {
     ]
 
     this.socialIcons = [
-    { icon: 'fa-brands fa-linkedin', disabled: false, href: 'https://www.linkedin.com/in/rayan-ck-9b1b4a309/' },
-    { icon: 'fa-brands fa-github', disabled: false, href: 'https://github.com/RayanCharef' }
+      { icon: 'fa-brands fa-linkedin', disabled: false, href: 'https://www.linkedin.com/in/rayan-ck-9b1b4a309/' },
+      { icon: 'fa-brands fa-github', disabled: false, href: 'https://github.com/RayanCharef' }
     ]
   }
 
@@ -41,6 +41,9 @@ export class Navbar {
       hover:bg-gray-200 transition-colors duration-200
     `
     logo.textContent = 'RC'
+    logo.addEventListener('click', () => {
+      window.location.href = '/'
+    })
 
     wrapper.appendChild(logo)
     return wrapper
@@ -48,7 +51,14 @@ export class Navbar {
 
   private createNavLink(link: NavLink): HTMLElement {
     const a = document.createElement('a')
-    a.href = link.href
+    const isOnProjectsPage = window.location.pathname === '/projects'
+
+    if (isOnProjectsPage && link.href.startsWith('#')) {
+      a.href = '/' + link.href
+    } else {
+      a.href = link.href
+    }
+
     a.textContent = link.label
     a.className = `
       text-gray-400 text-base tracking-wider uppercase
@@ -61,23 +71,23 @@ export class Navbar {
     return a
   }
 
-    private createSocialIcon(social: SocialIcon): HTMLElement {
+  private createSocialIcon(social: SocialIcon): HTMLElement {
     const i = document.createElement('i')
     i.className = `
-        ${social.icon} text-gray-400 text-lg
-        ${social.disabled ? 'cursor-not-allowed opacity-50' : 'cursor-pointer hover:text-white transition-colors duration-200'}
+      ${social.icon} text-gray-400 text-lg
+      ${social.disabled ? 'cursor-not-allowed opacity-50' : 'cursor-pointer hover:text-white transition-colors duration-200'}
     `
 
     if (social.href && !social.disabled) {
-        const a = document.createElement('a')
-        a.href = social.href
-        a.target = '_blank'
-        a.appendChild(i)
-        return a
+      const a = document.createElement('a')
+      a.href = social.href
+      a.target = '_blank'
+      a.appendChild(i)
+      return a
     }
 
     return i
-    }
+  }
 
   private createLoginIcon(): HTMLElement {
     const a = document.createElement('a')

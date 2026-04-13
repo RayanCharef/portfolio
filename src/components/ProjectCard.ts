@@ -13,9 +13,11 @@ export class ProjectCard {
   private createModal(): HTMLElement {
     const overlay = document.createElement('div')
     overlay.className = `
-      fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-8
-      opacity-0
+    fixed inset-0 z-50 flex items-center justify-center p-8
+    opacity-0
     `
+    overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.85)'
+    overlay.style.backdropFilter = 'blur(4px)'
     overlay.style.transition = 'opacity 0.3s ease'
 
     const modal = document.createElement('div')
@@ -35,7 +37,7 @@ export class ProjectCard {
       const img = document.createElement('img')
       img.src = `${IMAGE_BASE}/${this.project.images[0]}`
       img.alt = this.project.title
-      img.className = 'w-full h-64 object-cover rounded-t-lg'
+      img.className = 'w-full object-contain rounded-t-lg bg-[#0a0a0a]'
       modal.appendChild(img)
     }
 
@@ -129,12 +131,22 @@ export class ProjectCard {
       const galleryGrid = document.createElement('div')
       galleryGrid.className = 'grid grid-cols-3 gap-2'
 
-      this.project.images.slice(1).forEach(imgPath => {
-        const img = document.createElement('img')
-        img.src = `${IMAGE_BASE}/${imgPath}`
-        img.className = 'w-full h-32 object-cover rounded border border-[#222]'
-        galleryGrid.appendChild(img)
-      })
+    this.project.images.slice(1).forEach(imgPath => {
+    const img = document.createElement('img')
+    img.src = `${IMAGE_BASE}/${imgPath}`
+    img.className = 'w-full h-32 object-cover rounded border border-[#222] cursor-pointer hover:opacity-80 transition-opacity duration-200'
+    img.addEventListener('click', () => {
+        const lightbox = document.createElement('div')
+        lightbox.style.cssText = 'position:fixed;inset:0;z-index:60;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.95);cursor:zoom-out'
+        const full = document.createElement('img')
+        full.src = `${IMAGE_BASE}/${imgPath}`
+        full.style.cssText = 'max-width:90vw;max-height:90vh;object-fit:contain;border-radius:4px'
+        lightbox.appendChild(full)
+        lightbox.addEventListener('click', () => lightbox.remove())
+        document.body.appendChild(lightbox)
+    })
+    galleryGrid.appendChild(img)
+    })
 
       const gallery = document.createElement('div')
       gallery.className = 'flex flex-col gap-2'
