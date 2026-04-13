@@ -32,10 +32,10 @@ export class ApiService {
   static async getProjects(): Promise<Project[]> {
     try {
       const response = await fetch(`${this.baseUrl}/projects.php`)
-      console.log('Status:', response.status)
-      console.log('URL:', response.url)
+      //console.log('Status:', response.status)
+      //console.log('URL:', response.url)
       const data = await response.json()
-      console.log('Data:', data)
+      //console.log('Data:', data)
       return data
     } catch (error) {
       console.error('Failed to fetch projects:', error)
