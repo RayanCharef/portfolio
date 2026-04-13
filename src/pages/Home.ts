@@ -23,6 +23,7 @@ interface JourneyEntry {
   tags?: string[]
   status?: string
 }
+const BASE = import.meta.env.DEV ? '' : '/student/2025-2026/S349635'
 
 export class Home {
   private currentlyItems: InfoItem[]
@@ -137,7 +138,7 @@ export class Home {
     `
     button.textContent = 'View my work'
     button.addEventListener('click', () => {
-    window.location.href = '/projects'
+    window.location.href = `${BASE}/projects`
     })
     return button
   }

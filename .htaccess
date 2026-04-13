@@ -1,0 +1,7 @@
+Options -MultiViews
+RewriteEngine On
+RewriteBase /student/2025-2026/S349635/
+RewriteRule ^index\.html$ - [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /student/2025-2026/S349635/index.html [L]

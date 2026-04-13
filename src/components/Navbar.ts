@@ -9,6 +9,8 @@ interface SocialIcon {
   disabled?: boolean
 }
 
+const BASE = import.meta.env.DEV ? '' : '/student/2025-2026/S349635'
+
 export class Navbar {
   private links: NavLink[]
   private socialIcons: SocialIcon[]
@@ -16,11 +18,11 @@ export class Navbar {
 
   constructor() {
     this.adminUrl = 'https://mbo-portal.nl/student/2025-2026/S349635/admin/'
-    
+
     this.links = [
       { label: 'About me', href: '#about' },
       { label: 'Journey', href: '#journey' },
-      { label: 'Projects', href: '/projects' },
+      { label: 'Projects', href: `${BASE}/projects` },
       { label: 'Contact', href: '#contact' }
     ]
 
@@ -42,7 +44,7 @@ export class Navbar {
     `
     logo.textContent = 'RC'
     logo.addEventListener('click', () => {
-      window.location.href = '/'
+      window.location.href = `${BASE}/`
     })
 
     wrapper.appendChild(logo)
@@ -51,10 +53,10 @@ export class Navbar {
 
   private createNavLink(link: NavLink): HTMLElement {
     const a = document.createElement('a')
-    const isOnProjectsPage = window.location.pathname === '/projects'
+    const isOnProjectsPage = window.location.pathname.endsWith('/projects')
 
     if (isOnProjectsPage && link.href.startsWith('#')) {
-      a.href = '/' + link.href
+      a.href = `${BASE}/${link.href}`
     } else {
       a.href = link.href
     }

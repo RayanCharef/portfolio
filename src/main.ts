@@ -204,7 +204,7 @@ class App {
     const app = document.querySelector<HTMLDivElement>('#app')!
     const path = window.location.pathname
 
-    if (path === '/projects') {
+    if (path.endsWith('/projects')) {
       const projects = new Projects()
       app.appendChild(await projects.render())
     } else {
